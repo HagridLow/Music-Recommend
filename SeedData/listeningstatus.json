@@ -1,0 +1,22 @@
+[
+
+{
+	"Id": 1,
+	"Status": "Listened"
+},
+
+{
+	"Id": 2,
+	"Status": "Listening"
+},
+
+{
+	"Id": 3,
+	"Status": "Plan to listen"
+},
+
+{
+	"Id": 4,
+	"Status": "Dropped"
+}
+]

@@ -13,20 +13,6 @@ namespace API.Contexts
         {
             try 
             {
-                if(!context.AlbumRatings.Any())
-                {
-                    var ratingsData = File.ReadAllText("SeedData/rating.json");
-
-                    var ratings = JsonSerializer.Deserialize<List<AlbumRating>>(ratingsData);
-
-                    foreach(var item in ratings)
-                    {
-                        context.AlbumRatings.Add(item);
-                    }
-
-                    await context.SaveChangesAsync();
-                }
-
                 if(!context.AlbumStatuses.Any())
                 {
                     var statusData = File.ReadAllText("SeedData/listeningstatus.json");

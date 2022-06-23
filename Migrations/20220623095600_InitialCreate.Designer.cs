@@ -10,27 +10,13 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220615150951_DataCreate")]
-    partial class DataCreate
+    [Migration("20220623095600_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.6");
-
-            modelBuilder.Entity("API.Entities.AlbumRating", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("Rating")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("AlbumRatings");
-                });
 
             modelBuilder.Entity("API.Entities.AlbumStatus", b =>
                 {
@@ -51,9 +37,6 @@ namespace API.Migrations
                     b.Property<string>("ID")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("AlbumRatingId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<int>("AlbumStatusId")
                         .HasColumnType("INTEGER");
 
@@ -66,6 +49,9 @@ namespace API.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("Rating")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("ReleaseDate")
                         .HasColumnType("TEXT");
 
@@ -77,8 +63,6 @@ namespace API.Migrations
 
                     b.HasKey("ID");
 
-                    b.HasIndex("AlbumRatingId");
-
                     b.HasIndex("AlbumStatusId");
 
                     b.ToTable("SpotifyAlbums");
@@ -86,19 +70,11 @@ namespace API.Migrations
 
             modelBuilder.Entity("API.Entities.SpotifyAlbum", b =>
                 {
-                    b.HasOne("API.Entities.AlbumRating", "Rating")
-                        .WithMany()
-                        .HasForeignKey("AlbumRatingId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("API.Entities.AlbumStatus", "Status")
                         .WithMany()
                         .HasForeignKey("AlbumStatusId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Rating");
 
                     b.Navigation("Status");
                 });

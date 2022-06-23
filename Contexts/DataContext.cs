@@ -20,7 +20,6 @@ namespace API
             Database.EnsureCreated();
         }
 
-        public DbSet<AlbumRating> AlbumRatings { get; set; }
         public DbSet<AlbumStatus> AlbumStatuses { get; set; }
         public DbSet<SpotifyAlbum> SpotifyAlbums { get; set; }
 

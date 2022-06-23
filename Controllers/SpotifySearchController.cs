@@ -14,7 +14,7 @@ using static API.Entities.SpotifySearch;
 namespace API.Controllers
 {
     [ApiController]
-    [Route("api/spotifysearch")]
+    [Route("api/search")]
     public class SpotifySearchController: BaseAPIController
     {
         private readonly SearchHelper _searchHelper;
@@ -25,9 +25,40 @@ namespace API.Controllers
             _dataContext = dataContext;
             _searchHelper = searchHelper;
         }
+        
+        [HttpGet("getalbum")]
+        public async Task<List<SpotifyAlbum>> SearchAlbums(string search)
+        {
+            await Task.Run(async () => await SearchHelper.GetTokenAsync());
+            
+            var result = SearchHelper.GetAlbumTrackOrArtist(search);
 
-        [HttpPost("album")]
-        public async Task<ActionResult<SpotifyAlbum>> SearchAlbums(string search)
+            var album = new List<SpotifyAlbum>();
+            
+            foreach(var item in result.albums.items)
+            {
+                album.Add(new SpotifyAlbum(){
+                   ID = item.id,
+                   Name = item.name,
+                   Artist = item.artists.Any() ? item.artists[0].name : "e pa nema",
+                   Image = item.images.Any() ? item.images[0].url: "https://user-images.githubusercontent.com/24848110/33519396-7e56363c-d79d-11e7-969b-09782f5ccbab.png",
+                   TotalTracks = item.total_tracks,
+                   ReleaseDate = item.release_date 
+                    
+                    
+                });
+
+               
+            }    
+
+            return album;
+            
+        }
+
+
+
+        [HttpPost("ratealbum")]
+        public async Task<ActionResult<SpotifyAlbum>> RateAlbum(string search)
         {    
 
             await Task.Run(async () => await SearchHelper.GetTokenAsync());
@@ -45,8 +76,6 @@ namespace API.Controllers
                 album.Image = item.images.Any() ? item.images[0].url : "https://user-images.githubusercontent.com/24848110/33519396-7e56363c-d79d-11e7-969b-09782f5ccbab.png";
                 album.TotalTracks = item.total_tracks;
                 album.ReleaseDate = item.release_date;
-                album.AlbumRatingId = 1;
-                album.AlbumStatusId = 2;
 
 
                 _dataContext.SpotifyAlbums.Add(album);

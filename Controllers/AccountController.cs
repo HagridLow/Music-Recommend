@@ -1,13 +1,16 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using API.DTOs;
 using API.Entities;
 using API.Services;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using NETCore.MailKit.Core;
 
 namespace API.Controllers
 {
@@ -18,8 +21,10 @@ namespace API.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly TokenService _tokenService;
-        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, TokenService tokenService)
+        private readonly IEmailService _emailService;
+        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, TokenService tokenService, IEmailService emailService)
         {
+            _emailService = emailService;
             _tokenService = tokenService;
             _signInManager = signInManager;
             _userManager = userManager;
@@ -36,13 +41,7 @@ namespace API.Controllers
             
             if (result.Succeeded)
             {
-                return new UserDto
-                {
-                    DisplayName = user.DisplayName,
-                    Image = null,
-                    Token = _tokenService.CreateToken(user),
-                    Username = user.UserName
-                };
+                return CreateUserObject(user);
             }
 
             return Unauthorized();
@@ -69,18 +68,50 @@ namespace API.Controllers
 
             var result = await _userManager.CreateAsync(user, registerDto.Password);
 
+
             if(result.Succeeded)
             {
-                return new UserDto
-                {
-                    DisplayName = user.DisplayName,
-                    Image = null,
-                    Token = _tokenService.CreateToken(user),
-                    Username = user.UserName
-                };
+                var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+
+                var link = Url.Action(nameof(VerifyEmail), "account", new { userId = user.Id, code}, Request.Scheme, Request.Host.ToString());
+
+                await _emailService.SendAsync(user.Email, "Email Verify:", $"<a href=\"{link}\">Verify Email</a>", true);
+
+                Console.WriteLine("Email Verification Sent");
+
+                return Ok("Email Verification Send");
             }
 
+
             return BadRequest("Problem Registering User");
+        }
+
+
+        public async Task<ActionResult<UserDto>> VerifyEmail (string userId, string code)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null) return BadRequest("User non existent");
+            var result = await _userManager.ConfirmEmailAsync(user, code);
+
+            if (result.Succeeded)
+            {
+                return CreateUserObject(user);
+            }
+            
+            return BadRequest("Problem Verifying Email");
+        }
+
+
+
+        private UserDto CreateUserObject(AppUser user)
+        {
+            return new UserDto
+            {
+                DisplayName = user.DisplayName,
+                Image = "../assets/images/stockprofileimage.jpg",
+                Token = _tokenService.CreateToken(user),
+                Username = user.UserName
+            };
         }
     }
 }

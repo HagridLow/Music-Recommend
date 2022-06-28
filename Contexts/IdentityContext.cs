@@ -15,7 +15,7 @@ namespace API.Contexts
 
         }
 
-        public IdentityContext(DbContextOptions options) : base(options)
+        public IdentityContext(DbContextOptions<IdentityContext> options) : base(options)
         {
         }
     }

@@ -10,7 +10,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
+using NETCore.MailKit.Extensions;
+using NETCore.MailKit.Infrastructure.Internal;
 
 var builder = WebApplication.CreateBuilder(args);
 IConfiguration configuration = builder.Configuration;
@@ -32,9 +35,12 @@ builder.Services.AddIdentityCore<AppUser>(opt =>
     opt.Password.RequireNonAlphanumeric = false;
     opt.Password.RequiredLength = 10;
     opt.Password.RequireUppercase = true;
+    opt.SignIn.RequireConfirmedEmail = true;
+    
 })
 .AddEntityFrameworkStores<IdentityContext>()
-.AddSignInManager<SignInManager<AppUser>>();
+.AddSignInManager<SignInManager<AppUser>>()
+.AddDefaultTokenProviders();
 
 var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("bQeThWmZq3t6w9z$"));
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -50,6 +56,10 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 builder.Services.AddScoped<TokenService>();
 builder.Services.AddScoped<SearchHelper>();
+var mailKitOptions = configuration.GetSection("Email").Get<MailKitOptions>();
+builder.Services.AddMailKit(opt => {
+    opt.UseMailKit(mailKitOptions);
+});
 
 
 
@@ -64,6 +74,15 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseStaticFiles();
+
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(
+        Path.Combine(Directory.GetCurrentDirectory(), @"assets\images")
+    ), RequestPath = "/assets/images"
+});
 
 app.UseAuthentication();
 

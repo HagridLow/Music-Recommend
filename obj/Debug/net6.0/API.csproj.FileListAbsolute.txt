@@ -146,3 +146,13 @@ C:\Users\malid\OneDrive\Documents\MetalHead\API\obj\Debug\net6.0\ref\API.dll
 C:\Users\malid\OneDrive\Documents\MetalHead\API\bin\Debug\net6.0\MediatR.dll
 C:\Users\malid\OneDrive\Documents\MetalHead\API\bin\Debug\net6.0\MediatR.Contracts.dll
 C:\Users\malid\OneDrive\Documents\MetalHead\API\bin\Debug\net6.0\MediatR.Extensions.Microsoft.DependencyInjection.dll
+C:\Users\malid\OneDrive\Documents\MetalHead\API\bin\Debug\net6.0\API.staticwebassets.runtime.json
+C:\Users\malid\OneDrive\Documents\MetalHead\API\bin\Debug\net6.0\MailKit.dll
+C:\Users\malid\OneDrive\Documents\MetalHead\API\bin\Debug\net6.0\Microsoft.AspNetCore.Identity.UI.dll
+C:\Users\malid\OneDrive\Documents\MetalHead\API\bin\Debug\net6.0\Microsoft.Extensions.FileProviders.Embedded.dll
+C:\Users\malid\OneDrive\Documents\MetalHead\API\bin\Debug\net6.0\MimeKit.dll
+C:\Users\malid\OneDrive\Documents\MetalHead\API\bin\Debug\net6.0\NETCore.MailKit.dll
+C:\Users\malid\OneDrive\Documents\MetalHead\API\bin\Debug\net6.0\BouncyCastle.Crypto.dll
+C:\Users\malid\OneDrive\Documents\MetalHead\API\bin\Debug\net6.0\SendGrid.dll
+C:\Users\malid\OneDrive\Documents\MetalHead\API\bin\Debug\net6.0\StarkbankEcdsa.dll
+C:\Users\malid\OneDrive\Documents\MetalHead\API\bin\Debug\net6.0\System.Security.Permissions.dll

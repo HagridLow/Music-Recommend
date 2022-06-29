@@ -3,6 +3,8 @@ using API;
 using API.Contexts;
 using API.Entities;
 using API.Helpers;
+using API.Interfaces;
+using API.Security;
 using API.Services;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -56,6 +58,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 builder.Services.AddScoped<TokenService>();
 builder.Services.AddScoped<SearchHelper>();
+builder.Services.AddScoped<IUserAccessor, UserAccessor>();
 var mailKitOptions = configuration.GetSection("Email").Get<MailKitOptions>();
 builder.Services.AddMailKit(opt => {
     opt.UseMailKit(mailKitOptions);

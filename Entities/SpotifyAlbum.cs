@@ -13,9 +13,6 @@ namespace API.Entities
         public string Image { get; set; }
         public int TotalTracks { get; set; }
         public string ReleaseDate { get; set; }
-        public string Tracks { get; set; }
-        public int Rating { get; set; }
-        public int AlbumStatusId { get; set; }
-        public AlbumStatus Status {get; set; }
+
     }
 }

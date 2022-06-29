@@ -22,6 +22,24 @@ namespace API
 
         public DbSet<AlbumStatus> AlbumStatuses { get; set; }
         public DbSet<SpotifyAlbum> SpotifyAlbums { get; set; }
+        public DbSet<AlbumRaters> AlbumRaters { get; set; }
 
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+
+            builder.Entity<AlbumRaters>(x => x.HasKey(aa => new {aa.AppUserId, aa.AlbumId}));
+
+            builder.Entity<AlbumRaters>()
+                .HasOne(u => u.AppUser)
+                .WithMany(a => a.SpotifyAlbumRateds)
+                .HasForeignKey(aa => aa.AppUserId);
+
+            builder.Entity<AlbumRaters>()
+                .HasOne(u => u.SpotifyAlbumRated)
+                .WithMany(a => a.Raters)
+                .HasForeignKey(aa => aa.AlbumId);
+        }
     }
 }

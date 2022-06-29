@@ -11,6 +11,6 @@ namespace API.Entities
         public string DisplayName { get; set; }
 
         public string Bio { get; set; }
-
+        public ICollection<AlbumRaters> SpotifyAlbumRateds { get; set; }
     }
 }

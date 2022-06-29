@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
+using API.Contexts;
 using API.Entities;
 using API.Helpers;
+using API.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
@@ -19,9 +21,13 @@ namespace API.Controllers
     {
         private readonly SearchHelper _searchHelper;
         private readonly DataContext _dataContext;
+        private readonly IUserAccessor _userAccessor;
+        private readonly IdentityContext _identityContext;
 
-        public SpotifySearchController(SearchHelper searchHelper, DataContext dataContext)
+        public SpotifySearchController(SearchHelper searchHelper, DataContext dataContext, IUserAccessor userAccessor, IdentityContext identityContext)
         {
+            _identityContext = identityContext;
+            _userAccessor = userAccessor;
             _dataContext = dataContext;
             _searchHelper = searchHelper;
         }
@@ -43,9 +49,7 @@ namespace API.Controllers
                    Artist = item.artists.Any() ? item.artists[0].name : "e pa nema",
                    Image = item.images.Any() ? item.images[0].url: "https://user-images.githubusercontent.com/24848110/33519396-7e56363c-d79d-11e7-969b-09782f5ccbab.png",
                    TotalTracks = item.total_tracks,
-                   ReleaseDate = item.release_date 
-                    
-                    
+                   ReleaseDate = item.release_date     
                 });
 
                
@@ -58,14 +62,14 @@ namespace API.Controllers
 
 
         [HttpPost("ratealbum")]
-        public async Task<ActionResult<SpotifyAlbum>> RateAlbum(string search)
+        public async Task<ActionResult<SpotifyAlbumRated>> RateAlbum(string search)
         {    
 
             await Task.Run(async () => await SearchHelper.GetTokenAsync());
-            
-            var result = SearchHelper.GetAlbumTrackOrArtist(search);
 
-            var album = new SpotifyAlbum();
+            var result = SearchHelper.GetAlbumTrackOrArtist(search);
+    
+            var album = new SpotifyAlbumRated();
             
             foreach(var item in result.albums.items)
             {
@@ -77,6 +81,15 @@ namespace API.Controllers
                 album.TotalTracks = item.total_tracks;
                 album.ReleaseDate = item.release_date;
 
+                var user = await _identityContext.Users.FirstOrDefaultAsync(x => x.UserName == _userAccessor.GetUsername());
+
+                var rater = new AlbumRaters
+                {
+                    AppUser = user,
+                    SpotifyAlbumRated = album
+                };
+
+                album.Raters.Add(rater);
 
                 _dataContext.SpotifyAlbums.Add(album);
                 await _dataContext.SaveChangesAsync();
@@ -84,6 +97,7 @@ namespace API.Controllers
 
             }    
 
+            
 
 
             return album;

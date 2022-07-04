@@ -1,12 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text.Json;
 using System.Threading.Tasks;
 using API.Contexts;
+using API.DTOs;
 using API.Entities;
 using API.Helpers;
 using API.Interfaces;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
@@ -22,11 +25,13 @@ namespace API.Controllers
         private readonly SearchHelper _searchHelper;
         private readonly DataContext _dataContext;
         private readonly IUserAccessor _userAccessor;
-        private readonly IdentityContext _identityContext;
 
-        public SpotifySearchController(SearchHelper searchHelper, DataContext dataContext, IUserAccessor userAccessor, IdentityContext identityContext)
+        private readonly UserManager<AppUser> _userManager;
+
+
+        public SpotifySearchController(SearchHelper searchHelper, DataContext dataContext, IUserAccessor userAccessor, UserManager<AppUser> userManager)
         {
-            _identityContext = identityContext;
+            _userManager = userManager;
             _userAccessor = userAccessor;
             _dataContext = dataContext;
             _searchHelper = searchHelper;
@@ -44,7 +49,7 @@ namespace API.Controllers
             foreach(var item in result.albums.items)
             {
                 album.Add(new SpotifyAlbum(){
-                   ID = item.id,
+                   idAlbum = item.id,
                    Name = item.name,
                    Artist = item.artists.Any() ? item.artists[0].name : "e pa nema",
                    Image = item.images.Any() ? item.images[0].url: "https://user-images.githubusercontent.com/24848110/33519396-7e56363c-d79d-11e7-969b-09782f5ccbab.png",
@@ -62,54 +67,46 @@ namespace API.Controllers
 
 
         [HttpPost("ratealbum")]
-        public async Task<ActionResult<SpotifyAlbumRated>> RateAlbum(string search)
+        public async Task<ActionResult<SpotifyAlbumRated>> RateAlbum(string search, SpotifyAlbumRated spotifyAlbum)
         {    
 
             await Task.Run(async () => await SearchHelper.GetTokenAsync());
 
             var result = SearchHelper.GetAlbumTrackOrArtist(search);
-    
-            var album = new SpotifyAlbumRated();
-            
-            foreach(var item in result.albums.items)
-            {
- 
-                album.ID = item.id;
-                album.Name = item.name;
-                album.Artist = item.artists.Any() ? item.artists[0].name : "e pa nema";
-                album.Image = item.images.Any() ? item.images[0].url : "https://user-images.githubusercontent.com/24848110/33519396-7e56363c-d79d-11e7-969b-09782f5ccbab.png";
-                album.TotalTracks = item.total_tracks;
-                album.ReleaseDate = item.release_date;
 
-                var user = await _identityContext.Users.FirstOrDefaultAsync(x => x.UserName == _userAccessor.GetUsername());
-
-                var rater = new AlbumRaters
-                {
-                    AppUser = user,
-                    SpotifyAlbumRated = album
-                };
-
-                album.Raters.Add(rater);
-
-                _dataContext.SpotifyAlbums.Add(album);
-                await _dataContext.SaveChangesAsync();
-                return album;
-
-            }    
-
-            
+            var item = result.albums.items;
 
 
-            return album;
+
+            var user = await _userManager.FindByEmailAsync(User.FindFirstValue(ClaimTypes.Email));
+            if (user == null){
+                return BadRequest("User not found");
+            }     
+
+            spotifyAlbum.ID = Guid.NewGuid().ToString();
+            spotifyAlbum.idAlbum = item.Any() ? item[0].id : "";
+            spotifyAlbum.Name = item.Any() ? item[0].name : "";
+            spotifyAlbum.Artist = item.Any() ? item[0].artists.Any() ? item[0].artists[0].name : "" : "";
+            spotifyAlbum.Image = item.Any() ? item[0].images.Any()? item[0].images[0].url : "" : "https://user-images.githubusercontent.com/24848110/33519396-7e56363c-d79d-11e7-969b-09782f5ccbab.png";
+            spotifyAlbum.TotalTracks = item.Any() ? item[0].total_tracks : 0;
+            spotifyAlbum.ReleaseDate = item.Any() ? item[0].release_date : "";
+
+
+            user.SpotifyAlbumRateds.Add(spotifyAlbum);
+            _dataContext.SpotifyAlbumRateds.Add(spotifyAlbum);
+            await _dataContext.SaveChangesAsync();
+            return spotifyAlbum;
 
         }
 
         [HttpGet("albums")]
-        public async Task<IReadOnlyList<SpotifyAlbum>> GetSpotifyAlbumAsync()
+        public async Task<IReadOnlyList<SpotifyAlbumRated>> GetSpotifyAlbumAsync()
         {
-            var album = await _dataContext.SpotifyAlbums.ToListAsync();
+            var album = await _dataContext.SpotifyAlbumRateds.ToListAsync();
 
             return album;
-        }   
+        }
+
+
     }
 }

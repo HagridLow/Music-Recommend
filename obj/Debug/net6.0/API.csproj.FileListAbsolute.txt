@@ -156,3 +156,8 @@ C:\Users\malid\OneDrive\Documents\MetalHead\API\bin\Debug\net6.0\BouncyCastle.Cr
 C:\Users\malid\OneDrive\Documents\MetalHead\API\bin\Debug\net6.0\SendGrid.dll
 C:\Users\malid\OneDrive\Documents\MetalHead\API\bin\Debug\net6.0\StarkbankEcdsa.dll
 C:\Users\malid\OneDrive\Documents\MetalHead\API\bin\Debug\net6.0\System.Security.Permissions.dll
+C:\Users\malid\OneDrive\Documents\MetalHead\API\bin\Debug\net6.0\AutoMapper.dll
+C:\Users\malid\OneDrive\Documents\MetalHead\API\bin\Debug\net6.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+C:\Users\malid\OneDrive\Documents\MetalHead\API\bin\Debug\net6.0\Microsoft.AspNetCore.JsonPatch.dll
+C:\Users\malid\OneDrive\Documents\MetalHead\API\bin\Debug\net6.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+C:\Users\malid\OneDrive\Documents\MetalHead\API\bin\Debug\net6.0\Newtonsoft.Json.Bson.dll

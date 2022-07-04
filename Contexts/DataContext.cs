@@ -8,11 +8,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API
 {   
-    public class DataContext: DbContext
+    public class DataContext: IdentityDbContext<AppUser>
     {
         public DataContext()
         {
-            
+        
         }
 
         public DataContext(DbContextOptions options) : base(options)
@@ -20,26 +20,23 @@ namespace API
             Database.EnsureCreated();
         }
 
+
         public DbSet<AlbumStatus> AlbumStatuses { get; set; }
-        public DbSet<SpotifyAlbum> SpotifyAlbums { get; set; }
-        public DbSet<AlbumRaters> AlbumRaters { get; set; }
+        public DbSet<SpotifyAlbumRated> SpotifyAlbumRateds { get; set; }
 
-
-        protected override void OnModelCreating(ModelBuilder builder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(builder);
+            base.OnModelCreating(modelBuilder);
 
-            builder.Entity<AlbumRaters>(x => x.HasKey(aa => new {aa.AppUserId, aa.AlbumId}));
-
-            builder.Entity<AlbumRaters>()
-                .HasOne(u => u.AppUser)
-                .WithMany(a => a.SpotifyAlbumRateds)
-                .HasForeignKey(aa => aa.AppUserId);
-
-            builder.Entity<AlbumRaters>()
-                .HasOne(u => u.SpotifyAlbumRated)
-                .WithMany(a => a.Raters)
-                .HasForeignKey(aa => aa.AlbumId);
+            modelBuilder.Entity<AppUser>()
+                .HasMany(c => c.SpotifyAlbumRateds);
+            
+            modelBuilder.Entity<SpotifyAlbumRated>()
+                .HasOne(u => u.User);
+                
         }
+        
+
+
     }
 }

@@ -26,9 +26,6 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<IdentityContext>(options =>{
-    options.UseSqlite(builder.Configuration.GetConnectionString("IdentityConnection"));
-});
 builder.Services.AddDbContext<DataContext>(options =>{
     options.UseSqlite(builder.Configuration.GetConnectionString("DataConnection"));
 });
@@ -40,8 +37,8 @@ builder.Services.AddIdentityCore<AppUser>(opt =>
     opt.SignIn.RequireConfirmedEmail = true;
     
 })
-.AddEntityFrameworkStores<IdentityContext>()
 .AddSignInManager<SignInManager<AppUser>>()
+.AddEntityFrameworkStores<DataContext>()
 .AddDefaultTokenProviders();
 
 var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("bQeThWmZq3t6w9z$"));
@@ -63,6 +60,8 @@ var mailKitOptions = configuration.GetSection("Email").Get<MailKitOptions>();
 builder.Services.AddMailKit(opt => {
     opt.UseMailKit(mailKitOptions);
 });
+builder.Services.AddControllers().AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+
 
 
 

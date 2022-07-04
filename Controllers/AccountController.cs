@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using API.DTOs;
@@ -22,8 +23,10 @@ namespace API.Controllers
         private readonly SignInManager<AppUser> _signInManager;
         private readonly TokenService _tokenService;
         private readonly IEmailService _emailService;
-        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, TokenService tokenService, IEmailService emailService)
+        private readonly DataContext _context;
+        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, TokenService tokenService, IEmailService emailService, DataContext context)
         {
+            _context = context;
             _emailService = emailService;
             _tokenService = tokenService;
             _signInManager = signInManager;
@@ -102,6 +105,23 @@ namespace API.Controllers
         }
 
 
+        [HttpGet(("profiles"))]
+        public async Task<ActionResult<Profile>> GetUser(string targetUsername)
+        {
+            var user = await _context.Users
+            .Include(a => a.SpotifyAlbumRateds)
+            .SingleOrDefaultAsync(x => x.UserName == targetUsername);
+            
+            var profile = new Profile();
+
+            profile.Username = user.UserName;
+            profile.Bio = user.Bio;
+            profile.Image = "../assets/images/stockprofileimage.jpg";
+            profile.SpotifyAlbumRateds = user.SpotifyAlbumRateds;
+
+            return profile;
+        }
+
 
         private UserDto CreateUserObject(AppUser user)
         {
@@ -110,7 +130,7 @@ namespace API.Controllers
                 DisplayName = user.DisplayName,
                 Image = "../assets/images/stockprofileimage.jpg",
                 Token = _tokenService.CreateToken(user),
-                Username = user.UserName
+                Username = user.UserName,
             };
         }
     }

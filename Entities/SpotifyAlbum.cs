@@ -8,6 +8,7 @@ namespace API.Entities
 {
     public class SpotifyAlbum: BaseEntity
     {
+        public string idAlbum { get; set; }
         public string Name { get; set; }
         public string Artist { get; set;}
         public string Image { get; set; }

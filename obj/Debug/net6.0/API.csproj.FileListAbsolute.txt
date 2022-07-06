@@ -144,7 +144,6 @@ C:\Users\malid\OneDrive\Documents\MetalHead\API\obj\Debug\net6.0\API.csproj.Copy
 C:\Users\malid\OneDrive\Documents\MetalHead\API\obj\Debug\net6.0\API.genruntimeconfig.cache
 C:\Users\malid\OneDrive\Documents\MetalHead\API\obj\Debug\net6.0\ref\API.dll
 C:\Users\malid\OneDrive\Documents\MetalHead\API\bin\Debug\net6.0\MediatR.dll
-C:\Users\malid\OneDrive\Documents\MetalHead\API\bin\Debug\net6.0\MediatR.Contracts.dll
 C:\Users\malid\OneDrive\Documents\MetalHead\API\bin\Debug\net6.0\MediatR.Extensions.Microsoft.DependencyInjection.dll
 C:\Users\malid\OneDrive\Documents\MetalHead\API\bin\Debug\net6.0\API.staticwebassets.runtime.json
 C:\Users\malid\OneDrive\Documents\MetalHead\API\bin\Debug\net6.0\MailKit.dll
@@ -161,3 +160,4 @@ C:\Users\malid\OneDrive\Documents\MetalHead\API\bin\Debug\net6.0\AutoMapper.Exte
 C:\Users\malid\OneDrive\Documents\MetalHead\API\bin\Debug\net6.0\Microsoft.AspNetCore.JsonPatch.dll
 C:\Users\malid\OneDrive\Documents\MetalHead\API\bin\Debug\net6.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
 C:\Users\malid\OneDrive\Documents\MetalHead\API\bin\Debug\net6.0\Newtonsoft.Json.Bson.dll
+C:\Users\malid\OneDrive\Documents\MetalHead\API\bin\Debug\net6.0\CloudinaryDotNet.dll

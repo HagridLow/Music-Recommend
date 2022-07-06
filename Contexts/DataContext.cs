@@ -23,6 +23,7 @@ namespace API
 
         public DbSet<AlbumStatus> AlbumStatuses { get; set; }
         public DbSet<SpotifyAlbumRated> SpotifyAlbumRateds { get; set; }
+        public DbSet<Photo> Photos { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

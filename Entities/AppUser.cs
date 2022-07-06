@@ -11,5 +11,6 @@ namespace API.Entities
         public string DisplayName { get; set; }
         public string Bio { get; set; }
         public List<SpotifyAlbumRated> SpotifyAlbumRateds { get; set; } = new List<SpotifyAlbumRated>();
+        public ICollection<Photo> Photos { get; set; }
     }
 }

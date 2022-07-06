@@ -6,6 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using API.DTOs;
 using API.Entities;
+using API.Interfaces;
+using API.Photos;
+using API.Security;
 using API.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -24,8 +27,11 @@ namespace API.Controllers
         private readonly TokenService _tokenService;
         private readonly IEmailService _emailService;
         private readonly DataContext _context;
-        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, TokenService tokenService, IEmailService emailService, DataContext context)
+        private readonly IUserAccessor _userAccessor;
+
+        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, TokenService tokenService, IEmailService emailService, DataContext context, IUserAccessor userAccessor)
         {
+            _userAccessor = userAccessor;
             _context = context;
             _emailService = emailService;
             _tokenService = tokenService;
@@ -122,6 +128,17 @@ namespace API.Controllers
             return profile;
         }
 
+        [HttpPost("photo")]
+        public async Task<IActionResult> AddPhoto([FromForm] AddPhotoHandler.Command command)
+        {
+            return HandleResult(await Mediator.Send(command));
+        }
+
+        [HttpDelete("photo/{id}")]
+        public async Task<IActionResult> DeletePhoto(string id)
+        {
+            return HandleResult(await Mediator.Send(new DeletePhotoHandler.Command{Id = id}));
+        }
 
         private UserDto CreateUserObject(AppUser user)
         {
@@ -133,5 +150,6 @@ namespace API.Controllers
                 Username = user.UserName,
             };
         }
+
     }
 }

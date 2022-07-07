@@ -4,6 +4,7 @@ using API.Contexts;
 using API.Entities;
 using API.Helpers;
 using API.Interfaces;
+using API.Middleware;
 using API.Photos;
 using API.Security;
 using API.Services;
@@ -70,6 +71,8 @@ builder.Services.AddMediatR(typeof(AddPhotoHandler.Handler).Assembly);
 
 
 var app = builder.Build();
+
+app.UseMiddleware<ExceptionMiddleware>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

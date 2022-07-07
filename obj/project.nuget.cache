@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "8HwORF/CUmam2LTDK+E48G9UwFmHtMJYBiJBIj44pn79Xe8vZ8qqhebX7bBfgiWFpmDgNbGOD/32OPwdxDA5Sg==",
+  "dgSpecHash": "6rr0z/nRTjKCClhcihOnxrNw9gNzh5RLC1vuY4zZu6WdogJ0Osr2bvcXZfTgnvQSywpKgSKSRyCwZHycEA6G7A==",
   "success": true,
-  "projectFilePath": "C:\\Users\\malid\\OneDrive\\Documents\\MetalHead\\API\\API.csproj",
+  "projectFilePath": "c:\\Users\\malid\\OneDrive\\Documents\\MetalHead\\API\\API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\malid\\.nuget\\packages\\automapper\\11.0.0\\automapper.11.0.0.nupkg.sha512",
     "C:\\Users\\malid\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\11.0.0\\automapper.extensions.microsoft.dependencyinjection.11.0.0.nupkg.sha512",
@@ -103,7 +103,7 @@
     "C:\\Users\\malid\\.nuget\\packages\\system.security.permissions\\4.5.0\\system.security.permissions.4.5.0.nupkg.sha512",
     "C:\\Users\\malid\\.nuget\\packages\\system.security.principal.windows\\4.5.0\\system.security.principal.windows.4.5.0.nupkg.sha512",
     "C:\\Users\\malid\\.nuget\\packages\\system.text.encodings.web\\6.0.0\\system.text.encodings.web.6.0.0.nupkg.sha512",
-    "C:\\Users\\malid\\.nuget\\packages\\system.text.json\\6.0.0\\system.text.json.6.0.0.nupkg.sha512",
+    "C:\\Users\\malid\\.nuget\\packages\\system.text.json\\6.0.5\\system.text.json.6.0.5.nupkg.sha512",
     "C:\\Users\\malid\\.nuget\\packages\\unosquare.swan.lite\\3.0.0\\unosquare.swan.lite.3.0.0.nupkg.sha512"
   ],
   "logs": []

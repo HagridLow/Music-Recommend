@@ -1381,7 +1381,7 @@
           }
         }
       },
-      "System.Text.Json/6.0.0": {
+      "System.Text.Json/6.0.5": {
         "type": "package",
         "dependencies": {
           "System.Runtime.CompilerServices.Unsafe": "6.0.0",
@@ -1394,6 +1394,7 @@
           "lib/net6.0/System.Text.Json.dll": {}
         },
         "build": {
+          "build/System.Text.Json.targets": {},
           "buildTransitive/netcoreapp3.1/_._": {}
         }
       },
@@ -3521,10 +3522,10 @@
         "useSharedDesignerContext.txt"
       ]
     },
-    "System.Text.Json/6.0.0": {
-      "sha512": "zaJsHfESQvJ11vbXnNlkrR46IaMULk/gHxYsJphzSF+07kTjPHv+Oc14w6QEOfo3Q4hqLJgStUaYB9DBl0TmWg==",
+    "System.Text.Json/6.0.5": {
+      "sha512": "SSH+YYrMpvLcy7Orzb5K1tSyffnFacWahyxCCjYH1PbSHdAF4dekmIetBurFKgtTHDmwEe/J2Csi/7niRH6d/g==",
       "type": "package",
-      "path": "system.text.json/6.0.0",
+      "path": "system.text.json/6.0.5",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -3570,7 +3571,7 @@
         "lib/netcoreapp3.1/System.Text.Json.xml",
         "lib/netstandard2.0/System.Text.Json.dll",
         "lib/netstandard2.0/System.Text.Json.xml",
-        "system.text.json.6.0.0.nupkg.sha512",
+        "system.text.json.6.0.5.nupkg.sha512",
         "system.text.json.nuspec",
         "useSharedDesignerContext.txt"
       ]
@@ -3617,7 +3618,8 @@
       "SpotifyAPI.Web >= 6.2.2",
       "SpotifyAPI.Web.Auth >= 6.2.2",
       "Swashbuckle.AspNetCore >= 6.2.3",
-      "System.IdentityModel.Tokens.Jwt >= 6.19.0"
+      "System.IdentityModel.Tokens.Jwt >= 6.19.0",
+      "System.Text.Json >= 6.0.5"
     ]
   },
   "packageFolders": {
@@ -3626,11 +3628,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\malid\\OneDrive\\Documents\\MetalHead\\API\\API.csproj",
+      "projectUniqueName": "c:\\Users\\malid\\OneDrive\\Documents\\MetalHead\\API\\API.csproj",
       "projectName": "API",
-      "projectPath": "C:\\Users\\malid\\OneDrive\\Documents\\MetalHead\\API\\API.csproj",
+      "projectPath": "c:\\Users\\malid\\OneDrive\\Documents\\MetalHead\\API\\API.csproj",
       "packagesPath": "C:\\Users\\malid\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\malid\\OneDrive\\Documents\\MetalHead\\API\\obj\\",
+      "outputPath": "c:\\Users\\malid\\OneDrive\\Documents\\MetalHead\\API\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\malid\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -3640,7 +3642,6 @@
         "net6.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -3760,6 +3761,10 @@
           "System.IdentityModel.Tokens.Jwt": {
             "target": "Package",
             "version": "[6.19.0, )"
+          },
+          "System.Text.Json": {
+            "target": "Package",
+            "version": "[6.0.5, )"
           }
         },
         "imports": [

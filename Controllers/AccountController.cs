@@ -96,7 +96,7 @@ namespace API.Controllers
         }
 
 
-        public async Task<ActionResult<UserDto>> VerifyEmail (string userId, string code)
+        protected async Task<ActionResult<UserDto>> VerifyEmail (string userId, string code)
         {
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null) return BadRequest("User non existent");
@@ -134,11 +134,18 @@ namespace API.Controllers
             return HandleResult(await Mediator.Send(command));
         }
 
+        [HttpPost("photo/{id}/setProfilePic")]
+        public async Task<IActionResult> SetMain(string id)
+        {
+            return HandleResult(await Mediator.Send(new SetProfilePictureHandler.Command{Id = id}));
+        }
+
         [HttpDelete("photo/{id}")]
         public async Task<IActionResult> DeletePhoto(string id)
         {
             return HandleResult(await Mediator.Send(new DeletePhotoHandler.Command{Id = id}));
         }
+
 
         private UserDto CreateUserObject(AppUser user)
         {

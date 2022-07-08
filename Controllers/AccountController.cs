@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using API.DTOs;
 using API.Entities;
+using API.Followers;
 using API.Interfaces;
 using API.Photos;
 using API.Security;
@@ -144,6 +145,18 @@ namespace API.Controllers
         public async Task<IActionResult> DeletePhoto(string id)
         {
             return HandleResult(await Mediator.Send(new DeletePhotoHandler.Command{Id = id}));
+        }
+
+        [HttpPost("follow/{username}")]
+        public async Task<IActionResult> Follow(string username)
+        {
+            return HandleResult(await Mediator.Send(new FollowToggle.Command{TargetUsername = username}));
+        }
+
+        [HttpGet("followings/{username}")]
+        public async Task<IActionResult> GetFollowings(string username, string predicate)
+        {
+            return HandleResult(await Mediator.Send(new FollowerListHandler.Query{Username = username, Predicate = predicate}));
         }
 
 

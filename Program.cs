@@ -4,6 +4,7 @@ using API.Contexts;
 using API.Entities;
 using API.Helpers;
 using API.Interfaces;
+using API.Mapper;
 using API.Middleware;
 using API.Photos;
 using API.Security;
@@ -59,6 +60,7 @@ builder.Services.AddScoped<TokenService>();
 builder.Services.AddScoped<SearchHelper>();
 builder.Services.AddScoped<IUserAccessor, UserAccessor>();
 builder.Services.AddScoped<IPhotoAccessor, PhotoAccessor>();
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 var mailKitOptions = configuration.GetSection("Email").Get<MailKitOptions>();
 builder.Services.AddMailKit(opt => {
     opt.UseMailKit(mailKitOptions);
@@ -66,6 +68,7 @@ builder.Services.AddMailKit(opt => {
 builder.Services.AddControllers().AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 builder.Services.Configure<CloudinarySettings>(configuration.GetSection("Cloudinary"));
 builder.Services.AddMediatR(typeof(AddPhotoHandler.Handler).Assembly);
+builder.Services.AddAutoMapper(typeof(MappingProfiles).Assembly);
 
 
 

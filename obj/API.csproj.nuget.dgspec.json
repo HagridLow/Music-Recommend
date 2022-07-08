@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Users\\malid\\OneDrive\\Documents\\MetalHead\\API\\API.csproj": {}
+    "C:\\Users\\malid\\OneDrive\\Documents\\MetalHead\\API\\API.csproj": {}
   },
   "projects": {
-    "c:\\Users\\malid\\OneDrive\\Documents\\MetalHead\\API\\API.csproj": {
+    "C:\\Users\\malid\\OneDrive\\Documents\\MetalHead\\API\\API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\malid\\OneDrive\\Documents\\MetalHead\\API\\API.csproj",
+        "projectUniqueName": "C:\\Users\\malid\\OneDrive\\Documents\\MetalHead\\API\\API.csproj",
         "projectName": "API",
-        "projectPath": "c:\\Users\\malid\\OneDrive\\Documents\\MetalHead\\API\\API.csproj",
+        "projectPath": "C:\\Users\\malid\\OneDrive\\Documents\\MetalHead\\API\\API.csproj",
         "packagesPath": "C:\\Users\\malid\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\malid\\OneDrive\\Documents\\MetalHead\\API\\obj\\",
+        "outputPath": "C:\\Users\\malid\\OneDrive\\Documents\\MetalHead\\API\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\malid\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -21,6 +21,7 @@
           "net6.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {

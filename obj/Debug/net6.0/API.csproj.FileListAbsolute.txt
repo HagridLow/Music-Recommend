@@ -161,3 +161,4 @@ C:\Users\malid\OneDrive\Documents\MetalHead\API\bin\Debug\net6.0\Microsoft.AspNe
 C:\Users\malid\OneDrive\Documents\MetalHead\API\bin\Debug\net6.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
 C:\Users\malid\OneDrive\Documents\MetalHead\API\bin\Debug\net6.0\Newtonsoft.Json.Bson.dll
 C:\Users\malid\OneDrive\Documents\MetalHead\API\bin\Debug\net6.0\CloudinaryDotNet.dll
+C:\Users\malid\OneDrive\Documents\MetalHead\API\bin\Debug\net6.0\System.Text.Json.dll

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "6rr0z/nRTjKCClhcihOnxrNw9gNzh5RLC1vuY4zZu6WdogJ0Osr2bvcXZfTgnvQSywpKgSKSRyCwZHycEA6G7A==",
+  "dgSpecHash": "hwg+e3MtjrERO1EgTOOYYh19KRtSnv9pChvozjQtUigaDVpJ8GmpKCoj+xVyBNhzDvrAiAt9rgPEsP5E2Hvc/w==",
   "success": true,
-  "projectFilePath": "c:\\Users\\malid\\OneDrive\\Documents\\MetalHead\\API\\API.csproj",
+  "projectFilePath": "C:\\Users\\malid\\OneDrive\\Documents\\MetalHead\\API\\API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\malid\\.nuget\\packages\\automapper\\11.0.0\\automapper.11.0.0.nupkg.sha512",
     "C:\\Users\\malid\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\11.0.0\\automapper.extensions.microsoft.dependencyinjection.11.0.0.nupkg.sha512",

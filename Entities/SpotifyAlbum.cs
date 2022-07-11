@@ -14,6 +14,7 @@ namespace API.Entities
         public string Image { get; set; }
         public int TotalTracks { get; set; }
         public string ReleaseDate { get; set; }
+        public double? sumRating { get; set; }
 
     }
 }

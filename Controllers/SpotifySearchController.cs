@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Security.Claims;
 using System.Text.Json;
@@ -41,21 +42,27 @@ namespace API.Controllers
         public async Task<List<SpotifyAlbum>> SearchAlbums(string search)
         {
             await Task.Run(async () => await SearchHelper.GetTokenAsync());
+
             
             var result = SearchHelper.GetAlbumTrackOrArtist(search);
 
             var album = new List<SpotifyAlbum>();
+
+            
             
             foreach(var item in result.albums.items)
             {
+                
+
                 album.Add(new SpotifyAlbum(){
                    idAlbum = item.id,
                    Name = item.name,
                    Artist = item.artists.Any() ? item.artists[0].name : "e pa nema",
                    Image = item.images.Any() ? item.images[0].url: "https://user-images.githubusercontent.com/24848110/33519396-7e56363c-d79d-11e7-969b-09782f5ccbab.png",
                    TotalTracks = item.total_tracks,
-                   ReleaseDate = item.release_date     
-                });
+                   ReleaseDate = item.release_date,
+                   sumRating = _dataContext.SpotifyAlbumRateds.Where(x => x.idAlbum == item.id).ToList().Select(z => z.Rating).DefaultIfEmpty(0).Average()
+                }); 
 
                
             }    
@@ -97,14 +104,6 @@ namespace API.Controllers
             await _dataContext.SaveChangesAsync();
             return spotifyAlbum;
 
-        }
-
-        [HttpGet("albums")]
-        public async Task<IReadOnlyList<SpotifyAlbumRated>> GetSpotifyAlbumAsync()
-        {
-            var album = await _dataContext.SpotifyAlbumRateds.ToListAsync();
-
-            return album;
         }
 
 

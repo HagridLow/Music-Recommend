@@ -53,7 +53,6 @@ namespace API.Controllers
             foreach(var item in result.albums.items)
             {
                 
-
                 album.Add(new SpotifyAlbum(){
                    idAlbum = item.id,
                    Name = item.name,
@@ -73,17 +72,15 @@ namespace API.Controllers
 
 
 
-        [HttpPost("ratealbum")]
-        public async Task<ActionResult<SpotifyAlbumRated>> RateAlbum(string search, SpotifyAlbumRated spotifyAlbum)
+        [HttpPost("ratealbum/{id}")]
+        public async Task<ActionResult<SpotifyAlbumRated>> RateAlbum(string id, SpotifyAlbumRated spotifyAlbum)
         {    
 
             await Task.Run(async () => await SearchHelper.GetTokenAsync());
 
-            var result = SearchHelper.GetAlbumTrackOrArtist(search);
+            var result = await SearchHelper.GetAlbumById(id);
 
-            var item = result.albums.items;
-
-
+            var item = result;
 
             var user = await _userManager.FindByEmailAsync(User.FindFirstValue(ClaimTypes.Email));
             if (user == null){
@@ -91,12 +88,12 @@ namespace API.Controllers
             }     
 
             spotifyAlbum.ID = Guid.NewGuid().ToString();
-            spotifyAlbum.idAlbum = item.Any() ? item[0].id : "";
-            spotifyAlbum.Name = item.Any() ? item[0].name : "";
-            spotifyAlbum.Artist = item.Any() ? item[0].artists.Any() ? item[0].artists[0].name : "" : "";
-            spotifyAlbum.Image = item.Any() ? item[0].images.Any()? item[0].images[0].url : "" : "https://user-images.githubusercontent.com/24848110/33519396-7e56363c-d79d-11e7-969b-09782f5ccbab.png";
-            spotifyAlbum.TotalTracks = item.Any() ? item[0].total_tracks : 0;
-            spotifyAlbum.ReleaseDate = item.Any() ? item[0].release_date : "";
+            spotifyAlbum.idAlbum = item.Id;
+            spotifyAlbum.Name = item.Name;
+            spotifyAlbum.Artist = item.Artists.Any() ? item.Artists[0].Name : "";
+            spotifyAlbum.Image = item.Images.Any() ? item.Images[0].Url : "https://user-images.githubusercontent.com/24848110/33519396-7e56363c-d79d-11e7-969b-09782f5ccbab.png";
+            spotifyAlbum.TotalTracks = item.TotalTracks;
+            spotifyAlbum.ReleaseDate = item.ReleaseDate;
 
 
             user.SpotifyAlbumRateds.Add(spotifyAlbum);

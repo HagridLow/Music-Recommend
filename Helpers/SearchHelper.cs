@@ -45,5 +45,13 @@ namespace API.Helpers
 
             return result;
         }
+
+        public async static Task<FullAlbum> GetAlbumById(string id)
+        {
+            var client = new SpotifyClient($"{Token}");
+            var album = await client.Albums.Get($"{id}");
+
+            return album;
+        }
     }
 }

@@ -19,6 +19,7 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 using NETCore.MailKit.Extensions;
 using NETCore.MailKit.Infrastructure.Internal;
+using StackExchange.Redis;
 
 var builder = WebApplication.CreateBuilder(args);
 IConfiguration configuration = builder.Configuration;
@@ -56,11 +57,18 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateAudience = false
         };
     });
+
+    
 builder.Services.AddScoped<TokenService>();
 builder.Services.AddScoped<SearchHelper>();
 builder.Services.AddScoped<IUserAccessor, UserAccessor>();
 builder.Services.AddScoped<IPhotoAccessor, PhotoAccessor>();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddSingleton<ICacheResponseService, ResponseCacheService>();
+builder.Services.AddSingleton<ConnectionMultiplexer>(c => {
+    var configuration = ConfigurationOptions.Parse(builder.Configuration.GetConnectionString("Redis"), true);
+    return ConnectionMultiplexer.Connect(configuration);
+});
 var mailKitOptions = configuration.GetSection("Email").Get<MailKitOptions>();
 builder.Services.AddMailKit(opt => {
     opt.UseMailKit(mailKitOptions);
@@ -91,8 +99,8 @@ app.UseStaticFiles();
 app.UseStaticFiles(new StaticFileOptions
 {
     FileProvider = new PhysicalFileProvider(
-        Path.Combine(Directory.GetCurrentDirectory(), @"assets\images")
-    ), RequestPath = "/assets/images"
+        Path.Combine(Directory.GetCurrentDirectory(), @"assets")
+    ), RequestPath = "/images"
 });
 
 app.UseAuthentication();

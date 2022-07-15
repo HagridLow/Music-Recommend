@@ -8,6 +8,7 @@ namespace API.Entities
 {
     public class SpotifyAlbumRated : SpotifyAlbum
     {
+        public string ID { get; set; }
         public int Rating { get; set; }
         [JsonIgnore]
         public string  AppUserId { get ; set; }

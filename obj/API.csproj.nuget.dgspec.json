@@ -1,27 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\malid\\OneDrive\\Documents\\MetalHead\\API\\API.csproj": {}
+    "/Users/anton/Documents/MetalHead/API/API.csproj": {}
   },
   "projects": {
-    "C:\\Users\\malid\\OneDrive\\Documents\\MetalHead\\API\\API.csproj": {
+    "/Users/anton/Documents/MetalHead/API/API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\malid\\OneDrive\\Documents\\MetalHead\\API\\API.csproj",
+        "projectUniqueName": "/Users/anton/Documents/MetalHead/API/API.csproj",
         "projectName": "API",
-        "projectPath": "C:\\Users\\malid\\OneDrive\\Documents\\MetalHead\\API\\API.csproj",
-        "packagesPath": "C:\\Users\\malid\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\malid\\OneDrive\\Documents\\MetalHead\\API\\obj\\",
+        "projectPath": "/Users/anton/Documents/MetalHead/API/API.csproj",
+        "packagesPath": "/Users/anton/.nuget/packages/",
+        "outputPath": "/Users/anton/Documents/MetalHead/API/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\malid\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/Users/anton/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -134,6 +132,10 @@
               "target": "Package",
               "version": "[6.2.2, )"
             },
+            "StackExchange.Redis": {
+              "target": "Package",
+              "version": "[2.6.48, )"
+            },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.2.3, )"
@@ -165,7 +167,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.202\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/6.0.302/RuntimeIdentifierGraph.json"
         }
       }
     }

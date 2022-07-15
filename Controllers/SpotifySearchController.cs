@@ -26,9 +26,7 @@ namespace API.Controllers
         private readonly SearchHelper _searchHelper;
         private readonly DataContext _dataContext;
         private readonly IUserAccessor _userAccessor;
-
         private readonly UserManager<AppUser> _userManager;
-
 
         public SpotifySearchController(SearchHelper searchHelper, DataContext dataContext, IUserAccessor userAccessor, UserManager<AppUser> userManager)
         {
@@ -38,17 +36,15 @@ namespace API.Controllers
             _searchHelper = searchHelper;
         }
         
+        [Cached(600)]
         [HttpGet("getalbum")]
         public async Task<List<SpotifyAlbum>> SearchAlbums(string search)
         {
             await Task.Run(async () => await SearchHelper.GetTokenAsync());
 
-            
             var result = SearchHelper.GetAlbumTrackOrArtist(search);
 
             var album = new List<SpotifyAlbum>();
-
-            
             
             foreach(var item in result.albums.items)
             {
@@ -62,8 +58,6 @@ namespace API.Controllers
                    ReleaseDate = item.release_date,
                    sumRating = _dataContext.SpotifyAlbumRateds.Where(x => x.idAlbum == item.id).ToList().Select(z => z.Rating).DefaultIfEmpty(0).Average()
                 }); 
-
-               
             }    
 
             return album;
@@ -71,7 +65,7 @@ namespace API.Controllers
         }
 
 
-
+        [Cached(600)]
         [HttpPost("ratealbum/{id}")]
         public async Task<ActionResult<SpotifyAlbumRated>> RateAlbum(string id, SpotifyAlbumRated spotifyAlbum)
         {    
@@ -95,6 +89,11 @@ namespace API.Controllers
             spotifyAlbum.TotalTracks = item.TotalTracks;
             spotifyAlbum.ReleaseDate = item.ReleaseDate;
 
+            var albumInAlbumRateds = user.SpotifyAlbumRateds.Where(x => x.idAlbum == item.Id).ToString();
+            if(albumInAlbumRateds == item.Id)
+            {
+                return BadRequest("Cannot rate an already rated album");
+            }
 
             user.SpotifyAlbumRateds.Add(spotifyAlbum);
             _dataContext.SpotifyAlbumRateds.Add(spotifyAlbum);

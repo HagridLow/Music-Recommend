@@ -6,7 +6,7 @@ using static API.Entities.SpotifySearch;
 
 namespace API.Entities
 {
-    public class SpotifyAlbum: BaseEntity
+    public class SpotifyAlbum
     {
         public string idAlbum { get; set; }
         public string Name { get; set; }

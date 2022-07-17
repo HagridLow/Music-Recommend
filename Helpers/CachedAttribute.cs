@@ -19,7 +19,7 @@ namespace API.Helpers
 
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
-            var cacheService = context.HttpContext.RequestServices.GetRequiredService<ICacheResponseService>();
+            var cacheService = context.HttpContext.RequestServices.GetRequiredService<IResponseCacheService>();
 
             var cacheKey = GenerateCacheKeyFromReqeust(context.HttpContext.Request);
 

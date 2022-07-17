@@ -56,7 +56,7 @@ namespace API.Controllers
                    Image = item.images.Any() ? item.images[0].url: "https://user-images.githubusercontent.com/24848110/33519396-7e56363c-d79d-11e7-969b-09782f5ccbab.png",
                    TotalTracks = item.total_tracks,
                    ReleaseDate = item.release_date,
-                   sumRating = _dataContext.SpotifyAlbumRateds.Where(x => x.idAlbum == item.id).ToList().Select(z => z.Rating).DefaultIfEmpty(0).Average()
+                   totRating = _dataContext.SpotifyAlbumRateds.Where(x => x.idAlbum == item.id).ToList().Select(z => z.Rating).DefaultIfEmpty(0).Average()
                 }); 
             }    
 

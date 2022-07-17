@@ -8,10 +8,10 @@ using StackExchange.Redis;
 
 namespace API.Services
 {
-    public class ResponseCacheService : ICacheResponseService
+    public class ResponseCacheService : IResponseCacheService
     {
         private readonly IDatabase _database;
-        public ResponseCacheService(IConnectionMultiplexer redis)
+        public ResponseCacheService(ConnectionMultiplexer redis)
         {
             _database = redis.GetDatabase();
         }

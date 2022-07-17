@@ -45,6 +45,10 @@ builder.Services.AddIdentityCore<AppUser>(opt =>
 .AddEntityFrameworkStores<DataContext>()
 .AddDefaultTokenProviders();
 
+builder.Services.AddSingleton<ConnectionMultiplexer>(c => {
+    var configuration = ConfigurationOptions.Parse(builder.Configuration.GetConnectionString("Redis"), true);
+    return ConnectionMultiplexer.Connect(configuration);
+});
 var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("bQeThWmZq3t6w9z$"));
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(opt =>
@@ -64,11 +68,8 @@ builder.Services.AddScoped<SearchHelper>();
 builder.Services.AddScoped<IUserAccessor, UserAccessor>();
 builder.Services.AddScoped<IPhotoAccessor, PhotoAccessor>();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-builder.Services.AddSingleton<ICacheResponseService, ResponseCacheService>();
-builder.Services.AddSingleton<ConnectionMultiplexer>(c => {
-    var configuration = ConfigurationOptions.Parse(builder.Configuration.GetConnectionString("Redis"), true);
-    return ConnectionMultiplexer.Connect(configuration);
-});
+builder.Services.AddSingleton<IResponseCacheService, ResponseCacheService>();
+
 var mailKitOptions = configuration.GetSection("Email").Get<MailKitOptions>();
 builder.Services.AddMailKit(opt => {
     opt.UseMailKit(mailKitOptions);

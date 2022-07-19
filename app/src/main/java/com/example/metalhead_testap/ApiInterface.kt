@@ -7,8 +7,11 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
 
+
+
 interface ApiInterface {
-    @GET("search/getalbum?search=Damnation")
-    suspend fun getSearchedAlbums() : Response<List<Album>>
+    val search: String
+    @GET("search/getalbum/")
+    suspend fun getSearchedAlbums(@Query("search") keyword: String) : Response<List<Album>>
 
 }

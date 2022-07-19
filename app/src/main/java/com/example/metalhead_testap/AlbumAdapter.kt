@@ -7,6 +7,7 @@ import androidx.core.net.toUri
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.metalhead_testap.databinding.ItemAlbumBinding
 
 class AlbumAdapter: RecyclerView.Adapter<AlbumAdapter.AlbumViewHolder>() {
@@ -37,7 +38,7 @@ class AlbumAdapter: RecyclerView.Adapter<AlbumAdapter.AlbumViewHolder>() {
     override fun onBindViewHolder(holder: AlbumViewHolder, position: Int) {
         holder.binding.apply {
             val album = albums[position]
-            itemAlbumImage.setImageURI(albums[position].image.toUri())
+            Glide.with(itemAlbumImage).load(albums[position].image).into(itemAlbumImage)
             itemAlbumName.text = album.name
             itemAlbumArtist.text = album.artist
         }

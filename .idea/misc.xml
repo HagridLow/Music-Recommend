@@ -4,6 +4,8 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/drawable/container.xml" value="0.198" />
+        <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.331" />
+        <entry key="app/src/main/res/drawable/searchview_background.xml" value="0.331" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.33" />
         <entry key="app/src/main/res/layout/item_album.xml" value="0.5" />
       </map>

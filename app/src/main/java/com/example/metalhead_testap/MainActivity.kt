@@ -3,6 +3,7 @@ package com.example.metalhead_testap
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -25,10 +26,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         setupRecyclerView()
 
+
         lifecycleScope.launchWhenCreated {
             binding.progressBar.isVisible = true
             val response = try {
-                ApiInstance.api.getSearchedAlbums()
+                ApiInstance.api.getSearchedAlbums("Damnation")
             } catch (e: IOException) {
                 Log.e(TAG, "IOException, you might not have internet connection")
                 binding.progressBar.isVisible = false
@@ -46,6 +48,8 @@ class MainActivity : AppCompatActivity() {
             binding.progressBar.isVisible = false
         }
     }
+
+
 
     private fun setupRecyclerView() = binding.recyclerView.apply() {
         albumAdapter = AlbumAdapter()

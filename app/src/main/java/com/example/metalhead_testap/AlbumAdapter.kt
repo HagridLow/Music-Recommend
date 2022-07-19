@@ -29,11 +29,14 @@ class AlbumAdapter: RecyclerView.Adapter<AlbumAdapter.AlbumViewHolder>() {
         get() = differ.currentList
         set(value) { differ.submitList(value) }
 
+
     override fun getItemCount() = albums.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AlbumViewHolder {
         return AlbumViewHolder(ItemAlbumBinding.inflate(LayoutInflater.from(parent.context), parent, false ))
     }
+
+
 
     override fun onBindViewHolder(holder: AlbumViewHolder, position: Int) {
         holder.binding.apply {
@@ -43,4 +46,6 @@ class AlbumAdapter: RecyclerView.Adapter<AlbumAdapter.AlbumViewHolder>() {
             itemAlbumArtist.text = album.artist
         }
     }
+
+
 }

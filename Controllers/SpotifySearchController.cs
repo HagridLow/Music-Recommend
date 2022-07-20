@@ -37,7 +37,7 @@ namespace API.Controllers
         }
         
         [Cached(600)]
-        [HttpGet("getalbum")]
+        [HttpGet("album")]
         public async Task<List<SpotifyAlbum>> SearchAlbums(string search)
         {
             await Task.Run(async () => await SearchHelper.GetTokenAsync());
@@ -66,7 +66,7 @@ namespace API.Controllers
 
 
         [Cached(600)]
-        [HttpPost("ratealbum/{id}")]
+        [HttpPost("album/{id}")]
         public async Task<ActionResult<SpotifyAlbumRated>> RateAlbum(string id, SpotifyAlbumRated spotifyAlbum)
         {    
 

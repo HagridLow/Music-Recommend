@@ -112,22 +112,6 @@ namespace API.Controllers
         }
 
 
-        [HttpGet(("profiles"))]
-        public async Task<ActionResult<Profile>> GetUser(string targetUsername)
-        {
-            var user = await _context.Users
-            .Include(a => a.SpotifyAlbumRateds)
-            .SingleOrDefaultAsync(x => x.UserName == targetUsername);
-            
-            var profile = new Profile();
-
-            profile.Username = user.UserName;
-            profile.Bio = user.Bio;
-            profile.Image = "../assets/images/stockprofileimage.jpg";
-            profile.SpotifyAlbumRateds = user.SpotifyAlbumRateds;
-
-            return profile;
-        }
 
         [HttpPost("photo")]
         public async Task<IActionResult> AddPhoto([FromForm] AddPhotoHandler.Command command)

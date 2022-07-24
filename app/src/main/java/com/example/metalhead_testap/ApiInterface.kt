@@ -11,7 +11,6 @@ import retrofit2.http.Query
 
 
 interface ApiInterface {
-    val search: String
     @GET("search/getalbum")
     suspend fun getSearchedAlbums(@Query("search") keyword: String) : Response<List<Album>>
 

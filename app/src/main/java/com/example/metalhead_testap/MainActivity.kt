@@ -1,26 +1,17 @@
 package com.example.metalhead_testap
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.view.Menu
-import android.view.MenuInflater
-import androidx.appcompat.widget.SearchView
-import androidx.core.view.isVisible
-import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.LinearLayoutManager
+import android.view.View
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.example.metalhead_testap.databinding.ActivityMainBinding
-import retrofit2.HttpException
-import java.io.IOException
-
+import com.example.metalhead_testap.databinding.FragmentSearchBinding
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 const val TAG = "MainActivity"
 
 class MainActivity : AppCompatActivity() {
-
     private lateinit var binding: ActivityMainBinding
-
-    private lateinit var albumAdapter : AlbumAdapter
 
 
 
@@ -28,50 +19,33 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        setupRecyclerView()
+        replaceFragment(Home())
 
-        val searchView = binding.searchView
-        searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
-            override fun onQueryTextSubmit(keyword: String?): Boolean {
-                lifecycleScope.launchWhenCreated {
-                    binding.progressBar.isVisible = true
-                    val response = try {
-                        binding.recyclerView.scrollToPosition(0)
-                        ApiInstance.api.getSearchedAlbums(keyword!!)
-                    } catch (e: IOException) {
-                        Log.e(TAG, "IOException, you might not have internet connection")
-                        binding.progressBar.isVisible = false
-                        return@launchWhenCreated
-                    } catch (e: HttpException) {
-                        Log.e(TAG, "HttpException, unexpected response")
-                        binding.progressBar.isVisible = false
-                        return@launchWhenCreated
-                    }
-                    if(response.isSuccessful && response.body() != null){
-                        albumAdapter.albums = response.body()!!
-                    } else {
-                        Log.e(TAG, "Response not successful")
-                    }
-                    binding.progressBar.isVisible = false
+
+        binding.bottomNavigationView.setOnItemSelectedListener() {
+
+            when (it.itemId) {
+
+                R.id.home -> replaceFragment(Home())
+                R.id.search -> replaceFragment(Search())
+                R.id.profile -> replaceFragment(Profile())
+
+                else -> {
+
                 }
-                return true
             }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                return true
-            }
-
-        })
+            true
+        }
 
     }
 
 
 
-
-    private fun setupRecyclerView() = binding.recyclerView.apply() {
-        albumAdapter = AlbumAdapter()
-        adapter = albumAdapter
-        layoutManager = LinearLayoutManager(this@MainActivity)
+    private fun replaceFragment(fragment: Fragment) {
+        val fragmentManager = supportFragmentManager
+        val fragmentTransaction = fragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.frameLayout, fragment)
+        fragmentTransaction.commit()
     }
 
- }
+}

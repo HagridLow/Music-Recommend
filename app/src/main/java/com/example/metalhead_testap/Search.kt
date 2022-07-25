@@ -1,6 +1,7 @@
 package com.example.metalhead_testap
 
 import android.app.AlertDialog
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -109,9 +110,13 @@ class Search : Fragment() {
             layoutManager = LinearLayoutManager(this@Search.context)
         }
 
-
-
+        albumAdapter.onItemClick = {
+            val intent = Intent(this.context, AlbumDetailActivity::class.java)
+            intent.putExtra("album", it)
+            startActivity(intent)
         }
+
+    }
 
 
     companion object {

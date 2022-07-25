@@ -1,5 +1,6 @@
 package com.example.metalhead_testap
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.view.inputmethod.InputBinding
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.metalhead_testap.databinding.ActivityAlbumDetailBinding
 import com.example.metalhead_testap.databinding.FragmentSearchBinding
 import com.example.metalhead_testap.databinding.ItemAlbumBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -20,7 +22,9 @@ class AlbumAdapter: RecyclerView.Adapter<AlbumAdapter.AlbumViewHolder>() {
     inner class AlbumViewHolder(val binding: ItemAlbumBinding) :
         RecyclerView.ViewHolder(binding.root)
 
-    private lateinit var binding: FragmentSearchBinding
+    private lateinit var binding: ActivityAlbumDetailBinding
+
+    var onItemClick: ((Album) -> Unit)? = null
 
     private val difCallback = object : DiffUtil.ItemCallback<Album>() {
         override fun areItemsTheSame(oldItem: Album, newItem: Album): Boolean {
@@ -68,10 +72,7 @@ class AlbumAdapter: RecyclerView.Adapter<AlbumAdapter.AlbumViewHolder>() {
 
 
         holder.itemView.findViewById<Button>(R.id.infobutton).setOnClickListener {
-            val position: Int = holder.layoutPosition
-            val albumID = albums[position].idAlbum
-            Toast.makeText(holder.itemView.context, "albumId is : ${albumID}", Toast.LENGTH_SHORT)
-                .show()
+            onItemClick?.invoke(albumS)
         }
 
 

@@ -6,6 +6,7 @@
         <entry key="app/src/main/res/drawable/container.xml" value="0.198" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.331" />
         <entry key="app/src/main/res/drawable/searchview_background.xml" value="0.331" />
+        <entry key="app/src/main/res/layout/activity_album_detail.xml" value="0.38958333333333334" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_search.xml" value="0.22" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.4036458333333333" />

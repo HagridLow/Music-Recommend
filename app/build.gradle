@@ -1,6 +1,8 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-parcelize'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -34,6 +36,7 @@ android {
         dataBinding true
         viewBinding true
     }
+
 }
 
 dependencies {
@@ -54,3 +57,4 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
 }
+

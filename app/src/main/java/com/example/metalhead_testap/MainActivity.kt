@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.example.metalhead_testap.databinding.ActivityEntryPageBinding
 import com.example.metalhead_testap.databinding.ActivityMainBinding
 import com.example.metalhead_testap.databinding.FragmentSearchBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -13,13 +14,15 @@ const val TAG = "MainActivity"
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
-
+    private lateinit var binding2: ActivityEntryPageBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
+        binding2 = ActivityEntryPageBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        replaceFragment(Home())
+        setContentView(binding2.root)
+
 
 
         binding.bottomNavigationView.setOnItemSelectedListener() {

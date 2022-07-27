@@ -16,6 +16,9 @@
         android:theme="@style/Theme.MetalHeadTestAp"
         tools:targetApi="31">
         <activity
+            android:name=".EntryPage"
+            android:exported="false" />
+        <activity
             android:name=".AlbumDetailActivity"
             android:exported="false" />
         <activity

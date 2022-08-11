@@ -31,9 +31,10 @@ namespace API
 
             modelBuilder.Entity<AppUser>()
                 .HasMany(c => c.SpotifyAlbumRateds);
-            
+
             modelBuilder.Entity<SpotifyAlbumRated>()
                 .HasOne(u => u.User);
+               
             
             modelBuilder.Entity<UserFollowing>(b =>
             {

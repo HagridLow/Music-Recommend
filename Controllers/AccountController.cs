@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using API.DTOs;
 using API.Entities;
 using API.Followers;
+using API.Helpers;
 using API.Interfaces;
 using API.Photos;
 using API.Security;
@@ -85,7 +86,7 @@ namespace API.Controllers
 
                 var link = Url.Action(nameof(VerifyEmail), "account", new { userId = user.Id, code}, Request.Scheme, Request.Host.ToString());
 
-                await _emailService.SendAsync(user.Email, "Email Verify:", $"<a href=\"{link}\">Verify Email</a>", true);
+                await _emailService.SendAsync(user.Email, "Email Verify:", $"<a>Hello {user.UserName} please confirm your email by clicking on this button </a> <a href=\"{link}\"><button> Confirm Email </button></a>", true);
 
                 Console.WriteLine("Email Verification Sent");
 
@@ -97,18 +98,19 @@ namespace API.Controllers
         }
 
 
-        public async Task<ActionResult<UserDto>> VerifyEmail (string userId, string code)
-        {
-            var user = await _userManager.FindByIdAsync(userId);
-            if (user == null) return BadRequest("User non existent");
-            var result = await _userManager.ConfirmEmailAsync(user, code);
 
-            if (result.Succeeded)
+
+        [HttpDelete("deleteusers")]
+        public async Task<IQueryable<AppUser>> DeleteUsers()
+        {
+            var users = _userManager.Users;
+
+            foreach(var user in users)
             {
-                return CreateUserObject(user);
+                await _userManager.DeleteAsync(user);
             }
-            
-            return BadRequest("Problem Verifying Email");
+
+            return users;
         }
 
 
@@ -143,6 +145,20 @@ namespace API.Controllers
             return HandleResult(await Mediator.Send(new FollowerListHandler.Query{Username = username, Predicate = predicate}));
         }
 
+        [ApiExplorerSettings(IgnoreApi = true)]
+        public async Task<ActionResult<UserDto>> VerifyEmail(string userId, string code)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null) return BadRequest("User non existent");
+            var result = await _userManager.ConfirmEmailAsync(user, code);
+
+            if (result.Succeeded)
+            {
+                return CreateUserObject(user);
+            }
+
+            return BadRequest("Problem Verifying Email");
+        }
 
         private UserDto CreateUserObject(AppUser user)
         {

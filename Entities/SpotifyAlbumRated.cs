@@ -13,6 +13,6 @@ namespace API.Entities
         [JsonIgnore]
         public string  AppUserId { get ; set; }
         [JsonIgnore]
-        public virtual AppUser User { get; set; }
+        public AppUser User { get; set; }
     }
 }

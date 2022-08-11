@@ -38,12 +38,25 @@ namespace API.Helpers
         {
             var client = new RestClient("https://api.spotify.com/v1/search");
             client.AddDefaultHeader("Authorization", $"Bearer {Token}");
-            var request = new RestRequest($"?q={search}&type=album", Method.Get);
+            var request = new RestRequest($"?q={search}&type=album&limit=5", Method.Get);
             var response = client.Execute(request);
 
             var result = JsonConvert.DeserializeObject<SpotifyResult>(response.Content); 
 
             return result;
+        }
+
+        public async static Task<SearchResponse> GetAlbumMethod(string query)
+        {
+            var client = new SpotifyClient($"{Token}");
+            var req = new SearchRequest(SearchRequest.Types.Album, query)
+            {
+                Limit = 5,
+                Offset = 0
+            };
+            var search = await client.Search.Item(req);
+
+            return search;
         }
 
         public async static Task<FullAlbum> GetAlbumById(string id)

@@ -113,6 +113,8 @@ using (var scope = app.Services.CreateScope())
     await DataContextSeed.SeedAsync(dataContext, loggerFactory);
 }
 
+await Task.Run(async () => await SearchHelper.GetTokenAsync());
+
 app.UseAuthorization();
 
 app.MapControllers();

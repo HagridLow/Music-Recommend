@@ -35,40 +35,39 @@ namespace API.Controllers
             _dataContext = dataContext;
             _searchHelper = searchHelper;
         }
-        
-        [Cached(600)]
-        [HttpGet("album")]
-        public async Task<List<SpotifyAlbum>> SearchAlbums(string search)
+
+        [HttpGet("album/{query}")]
+        public async Task<List<SpotifyAlbum>> SearchAlbumMethod(string query)
         {
             await Task.Run(async () => await SearchHelper.GetTokenAsync());
 
-            var result = SearchHelper.GetAlbumTrackOrArtist(search);
+            var result = await SearchHelper.GetAlbumMethod(query);
 
             var album = new List<SpotifyAlbum>();
-            
-            foreach(var item in result.albums.items)
+
+
+            foreach (var item in result.Albums.Items)
             {
-                
-                album.Add(new SpotifyAlbum(){
-                   idAlbum = item.id,
-                   Name = item.name,
-                   Artist = item.artists.Any() ? item.artists[0].name : "e pa nema",
-                   Image = item.images.Any() ? item.images[0].url: "https://user-images.githubusercontent.com/24848110/33519396-7e56363c-d79d-11e7-969b-09782f5ccbab.png",
-                   TotalTracks = item.total_tracks,
-                   ReleaseDate = item.release_date,
-                   totRating = _dataContext.SpotifyAlbumRateds.Where(x => x.idAlbum == item.id).ToList().Select(z => z.Rating).DefaultIfEmpty(0).Average()
-                }); 
-            }    
+                album.Add(new SpotifyAlbum()
+                {
+                    idAlbum = item.Id,
+                    Name = item.Name,
+                    Artist = item.Artists.Any() ? item.Artists[0].Name : "e pa nema",
+                    Image = item.Images.Any() ? item.Images[0].Url : "https://user-images.githubusercontent.com/24848110/33519396-7e56363c-d79d-11e7-969b-09782f5ccbab.png",
+                    TotalTracks = item.TotalTracks,
+                    ReleaseDate = item.ReleaseDate,
+                    totRating = _dataContext.SpotifyAlbumRateds.Where(x => x.idAlbum == item.Id).ToList().Select(z => z.Rating).DefaultIfEmpty(0).Average()
+                });
+            }
 
             return album;
-            
         }
 
 
         [Cached(600)]
         [HttpPost("album/{id}")]
         public async Task<ActionResult<SpotifyAlbumRated>> RateAlbum(string id, SpotifyAlbumRated spotifyAlbum)
-        {    
+        {
 
             await Task.Run(async () => await SearchHelper.GetTokenAsync());
 
@@ -76,10 +75,14 @@ namespace API.Controllers
 
             var item = result;
 
-            var user = await _userManager.FindByEmailAsync(User.FindFirstValue(ClaimTypes.Email));
-            if (user == null){
+
+            var userID = await _userManager.FindByEmailAsync(User.FindFirstValue(ClaimTypes.Email));
+            var user = await _dataContext.Users.FindAsync(userID.Id);
+            if (user == null) {
                 return BadRequest("User not found");
-            }     
+            }
+
+            
 
             spotifyAlbum.ID = Guid.NewGuid().ToString();
             spotifyAlbum.idAlbum = item.Id;
@@ -88,20 +91,34 @@ namespace API.Controllers
             spotifyAlbum.Image = item.Images.Any() ? item.Images[0].Url : "https://user-images.githubusercontent.com/24848110/33519396-7e56363c-d79d-11e7-969b-09782f5ccbab.png";
             spotifyAlbum.TotalTracks = item.TotalTracks;
             spotifyAlbum.ReleaseDate = item.ReleaseDate;
+            spotifyAlbum.totRating = _dataContext.SpotifyAlbumRateds.Where(x => x.idAlbum == item.Id).ToList().Select(z => z.Rating).DefaultIfEmpty(0).Average();
 
-            var albumInAlbumRateds = user.SpotifyAlbumRateds.Where(x => x.idAlbum == item.Id).ToString();
-            if(albumInAlbumRateds == item.Id)
-            {
-                return BadRequest("Cannot rate an already rated album");
-            }
+            if (user.SpotifyAlbumRateds.Where(c => c.idAlbum == id).ToList().Select(z => z.idAlbum).FirstOrDefault() == item.Id) return BadRequest("Can't rate an already rated album");
+
 
             user.SpotifyAlbumRateds.Add(spotifyAlbum);
             _dataContext.SpotifyAlbumRateds.Add(spotifyAlbum);
+            await _userManager.UpdateAsync(user);
             await _dataContext.SaveChangesAsync();
+
             return spotifyAlbum;
 
         }
 
 
+        [HttpDelete("deletealbums")]
+        public async Task<IQueryable<SpotifyAlbumRated>> WipeRatedAlbums() //just for development
+        {
+            var albums = _dataContext.SpotifyAlbumRateds;
+
+            foreach(var album in albums)
+            {
+                _dataContext.SpotifyAlbumRateds.Remove(album);
+            }
+
+            await _dataContext.SaveChangesAsync();
+
+            return albums;
+        }
     }
 }
